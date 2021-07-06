@@ -1,0 +1,89 @@
+.pt-50 { padding-top:50px;}
+
+
+
+
+.cond_hight {
+    display: flex !important;
+    flex-direction: row !important;
+}
+
+
+.alin_cook {
+    padding-top: 5px;
+    padding-bottom: 22px;
+}
+
+.cook {
+    /*border: 1px solid #d6cfcf;*/
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.cook p {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.cook:hover {
+    -ms-transform: scale(1.01);
+    /* IE 9 */
+    -webkit-transform: scale(1.01);
+    /* Safari 3-8 */
+    transform: scale(1.01);
+    box-shadow: 0px 1px 22px #acacac;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.cook:hover img {
+    -ms-transform: scale(1.2);
+    /* IE 9 */
+    -webkit-transform: scale(1.2);
+    /* Safari 3-8 */
+    transform: scale(1.2);
+    transition: ease-in-out all 2s;
+}
+
+.cook_imge {
+
+    margin: 10px;
+    overflow: hidden;
+    height: 200px !important;
+    background-color: #fff;
+    /*border: solid #ccc 1px;*/
+
+}
+
+.img_cook {
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    min-height: initial;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+
+.cond {
+    flex-wrap: wrap !important;
+    display: flex !important;
+}
+
+.cond_hight {
+    display: flex !important;
+    flex-direction: row !important;
+}
+.f_h_spa{
+    height:69px;
+        overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}

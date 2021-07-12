@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
 use App\Gen;
 use Exception;
-use Gate;
+use App\Product;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class GensController extends Controller
 {
@@ -69,7 +70,8 @@ class GensController extends Controller
             $gens = Gen::find($id);
             if($gens) {
                 return view('admin.gens.edit')->with([
-                    "gens" => $gens
+                    "gens" => $gens,
+                    "products"=>Product::all()
                 ]);
             }
             else {
@@ -96,12 +98,16 @@ class GensController extends Controller
     
         request()->validate([
             'webtitle' => ['required', 'string'],
-        ]);        
-
+            "company_name" => 'required',
+            "trending_products" =>'required'
+        ]); 
         try {
             
             $gen = Gen::find($id);
             $gen->webtitle = $request->webtitle;
+            $gen->company_name = $request->company_name;
+            $gen->footer_content = $request->footer_content;
+            $gen->trending_products = implode(',',$request->trending_products);
             $gen->description  = $request->description;
             $gen->google_analy  = $request->google_analy;
             $gen->google_map  = $request->google_map;

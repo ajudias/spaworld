@@ -29,6 +29,7 @@
     <link href="/admin-theme/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="/admin-theme/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     @yield("mystyles")
 </head>
@@ -180,13 +181,13 @@
                                     <li><a href="{{ route('admin.gallerys.index') }}">Images</a></li>
                                 </ul>                                 
                             </li> -->
-<!-- 
+
                             <li>
-                                <a href="{{ route('admin.sliders.index') }}"  class="waves-effect">
+                                <a href="{{ route('admin.homepage.index') }}"  class="waves-effect">
                                     <i class="bx bx-image"></i>
-                                    <span>Home Page Slider</span>
+                                    <span>Home Page Content</span>
                                 </a>
-                            </li> -->
+                            </li>
 
                             <li>
                                 <a href="{{ route('admin.contacts.index') }}"  class="waves-effect">
@@ -316,6 +317,7 @@
 
         <script src="/admin-theme/assets/js/app.js"></script>
         <script src="/admin-theme/assets/js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         
         @yield("footerscript")
 

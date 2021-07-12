@@ -9,7 +9,7 @@ class CategoryComposer
 {
     public function compose(View $view){
         // $view->with('categories',PdtSubCatg::with('sub_category')->where('status', '=', 1)->orderBy('disp_order')->get());
-         $view->with('categoriess',PdtCatg::all());
+         $view->with('categoriess',PdtCatg::orderBy('disp_order')->get());
     }
 
 }

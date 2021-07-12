@@ -244,4 +244,6 @@ return [
 
     ],
 
+    'mail_to' => env('MAIL_TO','sales@spaworlduae.com')
+
 ];

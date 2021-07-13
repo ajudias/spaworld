@@ -98,20 +98,24 @@
                     <div class="col-md-6">
 
                         <div class="row">
-                            <form action="{{route('ajaxsavecontact')}}" method="post">
+                            <form action="{{ route('ajaxsavecontact') }}" method="post">
                                 @csrf
 
                                 <div class="col-md-10 col-md-offset-1">
 
-                                    <input type="text" name="name" required placeholder="Name" class="form-control" required>
-                                    <input type="email" name="email" required class="form-control" placeholder="Email" required   >
-                                    <input type="number" name="phone" required placeholder="Phone" class="form-control" required>
+                                    <input type="text" name="name" required placeholder="Name" class="form-control"
+                                        required>
+                                    <input type="email" name="email" required class="form-control" placeholder="Email"
+                                        required>
+                                    <input type="number" name="phone" required placeholder="Phone" class="form-control"
+                                        required>
                                 </div>
                                 <div class="col-md-10 col-md-offset-1">
-                                    <textarea name="message" class="form-control" placeholder="Message" rows="6" required></textarea>
+                                    <textarea name="message" class="form-control" placeholder="Message" rows="6"
+                                        required></textarea>
                                 </div>
                                 <div class="col-md-7 col-md-offset-4 text-right">
-                                    <input type="submit" class="btn btn_hover" value="Contact us"> 
+                                    <input type="submit" class="btn btn_hover" value="Contact us">
                                     {{-- <a href="#" class="btn" onclick="sendcontact()">Send <i class="ti ti-email"></i></a> --}}
                                 </div>
                                 @if (session('Error'))
@@ -124,13 +128,13 @@
                                     <div class="alert alert-success" role="alert">
                                         {{ session('Success') }}
                                     </div>
-                                @endif 
+                                @endif
                             </form>
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+        </section>
+    </div>
 
     <section class="lec_section lec_section_no_overlay">
         <div class="lec_over" data-color="#333" data-opacity="0.05"></div>
@@ -145,27 +149,25 @@
                         <div id="my-pics" class="carousel slide" data-ride="carousel">
                             <!-- Indicators -->
                             <ol class="carousel-indicators">
-                                <li data-target="#my-pics" data-slide-to="0" class="active"></li>
-                                <li data-target="#my-pics" data-slide-to="1"></li>
-                                <li data-target="#my-pics" data-slide-to="2"></li>
+                                @forelse ($links as $key=>$link)
+                                    <li data-target="#my-pics" data-slide-to="{{ $key }}" class="active"></li>
+                                @empty
+                                    <li data-target="#my-pics" data-slide-to="0" class="active"></li>
+                                @endforelse
                             </ol>
                             <!-- Content -->
                             <div class="carousel-inner" role="listbox">
-                                <!-- Slide 1 -->
-                                <div class="item active HomeProSliderH">
-                                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ht9NI9-pTZo">
-                                    </iframe>
-                                </div>
-                                <!-- Slide 2 -->
-                                <div class="item  HomeProSliderH">
-                                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ht9NI9-pTZo">
-                                    </iframe>
-                                </div>
-                                <!-- Slide 3 -->
-                                <div class="item  HomeProSliderH">
-                                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ht9NI9-pTZo">
-                                    </iframe>
-                                </div>
+                                @forelse ($links as $link)
+                                    <div class="item active HomeProSliderH">
+                                        <iframe width="100%" height="100%" src="{{ $link->link }}">
+                                        </iframe>
+                                    </div>
+                                @empty
+                                    <div class="item active HomeProSliderH">
+                                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ht9NI9-pTZo">
+                                        </iframe>
+                                    </div>
+                                @endforelse
                             </div>
                             <!-- Previous/Next controls -->
 
@@ -233,4 +235,130 @@
 @endsection
 
 @section('footerscript')
+    <script>
+        // var tiles = [];
+        // var dialog, dialogOverlay, dialogCloseButton, dialogOkButton;
+        // var triggeringElement;
+
+        // window.addEventListener('DOMContentLoaded', function(e) {
+        //     dialog = document.querySelector('.dialog');
+        //     dialogOverlay = dialog.querySelector('.overlay');
+        //     dialogCloseButton = dialogOverlay.querySelector('.close-button');
+        //     dialogOkButton = dialogOverlay.querySelector('.ok-button');
+
+            /**
+              Once Slick has initialized, retrieve the relevant DOM elements and setup quick view functionality 
+            */
+            // $('.carousel').on('init', function(e, slick) {
+                // tiles = document.querySelectorAll('.carousel .tile');
+
+                // Activating any tile should launch the quick view modal
+                // tiles.forEach(function (tile) {
+                //    tile.addEventListener('click', openDialog);
+                // });
+            // });
+
+            /**
+              Initialize Slick Slider with recommended configuration options
+            */
+            $('.carousel-inner').slick({
+                slidesToShow: 4,
+                prevArrow: '<button class="previous-button is-control">' +
+                    '  <span class="fas fa-angle-left" aria-hidden="true"></span>' +
+                    '  <span class="sr-only">Previous slide</span>' +
+                    '</button>',
+                nextArrow: '<button class="next-button is-control">' +
+                    '  <span class="fas fa-angle-right" aria-hidden="true"></span>' +
+                    '  <span class="sr-only">Next slide</span>' +
+                    '</button>',
+                responsive: [{
+                        breakpoint: 975,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 675,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 575,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    },
+                    {
+                        breakpoint: 375,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    },
+                ]
+                // responsive: [{
+                //       breakpoint: 575,
+                //       settings: {
+                //          slidesToShow: 2
+                //       }
+                //    },
+                //    {
+                //       breakpoint: 375,
+                //       settings: {
+                //          slidesToShow: 1
+                //       }
+                //    }
+                // ]
+            });
+
+            // Close the dialog when any of its interactive elements are activated
+        //     dialogCloseButton.addEventListener('click', closeDialog);
+        //     dialogOkButton.addEventListener('click', closeDialog);
+
+        //     // Clicking anywhere outside the dialog content should close the dialog
+        //     dialog.addEventListener('click', handleDialogClicks);
+        //     dialog.addEventListener('keydown', handleDialogKeypresses);
+        // });
+
+
+        /**
+          NOTE: Modal dialog implementation for code demo purposes only!
+        */
+        function openDialog(e) {
+            e.preventDefault();
+            triggeringElement = e.target;
+            dialog.classList.remove('is-hidden');
+            dialogCloseButton.focus();
+        }
+
+        function closeDialog() {
+            triggeringElement.focus();
+            dialog.classList.add('is-hidden');
+        }
+
+        function handleDialogClicks(e) {
+            if (!dialogOverlay.contains(e.target)) {
+                closeDialog();
+            }
+        }
+
+        function handleDialogKeypresses(e) {
+            switch (e.key) {
+                case 'Escape':
+                    closeDialog();
+                    break;
+
+                case 'Tab':
+                    if (e.shiftKey && document.activeElement === dialogCloseButton) {
+                        e.preventDefault();
+                        dialogOkButton.focus();
+                    } else if (!e.shiftKey && document.activeElement === dialogOkButton) {
+                        e.preventDefault();
+                        dialogCloseButton.focus();
+                    }
+
+                    break;
+            }
+        }
+    </script>
 @endsection

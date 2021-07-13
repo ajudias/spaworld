@@ -188,6 +188,12 @@
                                     <span>Home Page Content</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('admin.video.index') }}"  class="waves-effect">
+                                    <i class="bx bx-image"></i>
+                                    <span>Video Links</span>
+                                </a>
+                            </li>
 
                             <li>
                                 <a href="{{ route('admin.contacts.index') }}"  class="waves-effect">

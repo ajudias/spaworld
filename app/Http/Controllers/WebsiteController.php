@@ -9,6 +9,7 @@ use App\Contact;
 use App\Gallery;
 use App\PdtCatg;
 use App\Product;
+use App\VideoLink;
 use App\PdtSubCatg;
 use \App\Mail\SendMail;
 use App\HomePageContent;
@@ -33,14 +34,18 @@ class WebsiteController extends Controller
     {
         $pdtsubcatg = PdtSubCatg::orderBy('disp_order')->get();
         $products = Product::orderBy('disp_order')->take(4)->get();
-        $home=HomePageContent::first();
+        $home = HomePageContent::first();
+        $trendingProducts = Product::whereIn('id', explode(',', $this->GeneralSettings->trending_products))->get();
+        $links = VideoLink::all();
 
         return view('website.home')->with([
             "gens" => $this->GeneralSettings,
             "pdtcatg" => $this->ProductCategories,
             "pdtsubcatg" => $pdtsubcatg,
             "products" => $products,
-            'home' =>$home
+            'home' => $home,
+            'trendingProducts' => $trendingProducts,
+            'links' =>$links
         ]);
     }
 
@@ -73,9 +78,11 @@ class WebsiteController extends Controller
 
     public function contactus()
     {
+        $links = VideoLink::all();
         return view('website.contact')->with([
             "gens" => $this->GeneralSettings,
             "pdtcatg" => $this->ProductCategories,
+            'links' => $links
         ]);
     }
 
@@ -163,13 +170,13 @@ class WebsiteController extends Controller
         $pdtsubcatg = PdtSubCatg::where('url_slug', $slug)->first();
         $category = PdtCatg::where('url_slug', $slug)->first();
         $products = Product::with('categories');
-        if($pdtsubcatg){
-            $products=$products->where('sub_catg_id', $pdtsubcatg->id);
+        if ($pdtsubcatg) {
+            $products = $products->where('sub_catg_id', $pdtsubcatg->id);
         }
-        if($category){
-            $products=$products->orWhere('catg_id',$category->id);
+        if ($category) {
+            $products = $products->orWhere('catg_id', $category->id);
         }
-       $products=$products->get();
+        $products = $products->get();
 
         return view('website.product-list')->with([
             "gens" => $this->GeneralSettings,
@@ -182,7 +189,10 @@ class WebsiteController extends Controller
     public function productDetails(Product $product)
     {
         try {
-            return view('website.product', compact('product'));
+            $trendingProducts = Product::whereIn('id', explode(',', $this->GeneralSettings->trending_products))->get();
+            $home = HomePageContent::first();
+
+            return view('website.product', compact('product', 'trendingProducts','home'));
         } catch (\Exception $th) {
             dd($th->getMessage());
         }
@@ -191,80 +201,67 @@ class WebsiteController extends Controller
     {
         $cookie_data = stripslashes(Cookie::get('spaworldCartCookie'));
         $cart_data = json_decode($cookie_data, true);
-        $products=Product::all();
-        return view('website.cart',compact('cart_data','products'));
+        $products = Product::all();
+        return view('website.cart', compact('cart_data', 'products'));
     }
 
-    
+
     public function addToCart(Request $request)
     {
         try {
             $prod_id = $request->input('product_id');
             $quantity = $request->input('quantity');
-    
-            if(Cookie::get('spaworldCartCookie'))
-            {
+
+            if (Cookie::get('spaworldCartCookie')) {
                 $cookie_data = stripslashes(Cookie::get('spaworldCartCookie'));
                 $cart_data = json_decode($cookie_data, true);
-            }
-            else
-            {
+            } else {
                 $cart_data = array();
             }
             $item_id_list = array_column($cart_data, 'item_id');
             $prod_id_is_there = $prod_id;
-    
-            if(in_array($prod_id_is_there, $item_id_list))
-            {
-                foreach($cart_data as $keys => $values)
-                {
-                    if($cart_data[$keys]["item_id"] == $prod_id)
-                    {
+
+            if (in_array($prod_id_is_there, $item_id_list)) {
+                foreach ($cart_data as $keys => $values) {
+                    if ($cart_data[$keys]["item_id"] == $prod_id) {
                         $cart_data[$keys]["item_quantity"] = $request->input('quantity');
                         $item_data = json_encode($cart_data);
                         $minutes = 600;
                         Cookie::queue(Cookie::make('spaworldCartCookie', $item_data, $minutes));
-                        return response()->json(['status'=>'"'.$cart_data[$keys]["item_name"].'" Already in Cart','status_code'=>404]);
+                        return response()->json(['status' => '"' . $cart_data[$keys]["item_name"] . '" Already in Cart', 'status_code' => 404]);
                     }
                 }
-            }
-            else
-            {
+            } else {
                 $products = Product::find($prod_id);
                 $prod_name = $products->product_name;
-                if($products)
-                {
+                if ($products) {
                     $item_array = array(
                         'item_id' => $prod_id,
                         'item_name' => $prod_name,
                         'item_quantity' => $quantity,
                     );
                     $cart_data[] = $item_array;
-    
+
                     $item_data = json_encode($cart_data);
                     $minutes = 60;
                     Cookie::queue(Cookie::make('spaworldCartCookie', $item_data, $minutes));
-                    return response()->json(['status'=>'"'.$prod_name.'" Added to Cart','status_code'=>200]);
+                    return response()->json(['status' => '"' . $prod_name . '" Added to Cart', 'status_code' => 200]);
                 }
             }
         } catch (\Exception $th) {
             return $th->getMessage();
         }
-        
     }
 
     public function cartCount()
     {
-        if(Cookie::get('spaworldCartCookie'))
-        {
+        if (Cookie::get('spaworldCartCookie')) {
             $cookie_data = stripslashes(Cookie::get('spaworldCartCookie'));
             $cart_data = json_decode($cookie_data, true);
             $totalcart = count($cart_data);
 
-            return response()->json(['count' => $totalcart]); 
-        }
-        else
-        {
+            return response()->json(['count' => $totalcart]);
+        } else {
             $totalcart = "0";
             return response()->json(['count' => $totalcart]);
         }
@@ -280,20 +277,16 @@ class WebsiteController extends Controller
         $item_id_list = array_column($cart_data, 'item_id');
         $prod_id_is_there = $prod_id;
 
-        if(in_array($prod_id_is_there, $item_id_list))
-        {
-            foreach($cart_data as $keys => $values)
-            {
-                if($cart_data[$keys]["item_id"] == $prod_id)
-                {
+        if (in_array($prod_id_is_there, $item_id_list)) {
+            foreach ($cart_data as $keys => $values) {
+                if ($cart_data[$keys]["item_id"] == $prod_id) {
                     unset($cart_data[$keys]);
                     $item_data = json_encode($cart_data);
                     $minutes = 60;
                     Cookie::queue(Cookie::make('spaworldCartCookie', $item_data, $minutes));
-                    return response()->json(['status'=>'Item Removed from Cart']);
+                    return response()->json(['status' => 'Item Removed from Cart']);
                 }
             }
         }
     }
-
 }

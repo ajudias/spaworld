@@ -162,6 +162,209 @@
             }
         }
 
+        .spaProSli {
+            margin: 0px 10px 10px 10px !important;
+        }
+
+        .spaImgMar {
+            margin: 5px;
+        }
+
+        .carousel {
+            position: relative;
+            width: calc(100% - 100px);
+            max-width: 100%;
+            margin-left: 50px;
+        }
+
+
+        .bg-white {
+            background-color: white;
+            background: white !important;
+        }
+
+        .is-control {
+            background: 0;
+            border: 0;
+            padding: 0 10px;
+            z-index: 1;
+            cursor: pointer;
+
+            font-size: 40px;
+            color: rgba(0, 0, 0, .6);
+
+            transition: all .2s linear;
+        }
+
+        .is-control:hover {
+            color: rgba(0, 0, 0, 1);
+        }
+
+        .is-control:focus {
+            outline: none;
+            background-color: rgba(0, 0, 0, .8);
+            color: rgba(255, 255, 255, 1);
+            border-radius: 5px;
+        }
+
+        .previous-button {
+            position: absolute;
+            left: -50px;
+            top: 45%;
+        }
+
+        .next-button {
+            position: absolute;
+            right: -50px;
+            top: 45%;
+        }
+
+
+
+        .tile {
+            height: var(--carousel-height);
+            position: relative;
+
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: pointer;
+        }
+
+        .tile:focus {
+            outline: 0;
+        }
+
+        .slick-slide:not(:last-of-type) {
+            margin-right: var(--tile-margin);
+        }
+
+        .tile .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tile .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background-color: rgba(0, 0, 0, .6);
+
+            transition: opacity .1s linear;
+            opacity: 0;
+        }
+
+        .tile:focus .overlay,
+        .tile:hover .overlay {
+            opacity: 1;
+        }
+
+        .tile .overlay .quick-view-button {
+            padding: 10px 15px;
+
+            background: rgba(0, 0, 0, .7);
+            border: 3px solid white;
+            box-shadow: 0 0 15px 0 rgba(0, 0, 0, .6);
+
+            color: white;
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+
+        /**
+                 Quick view dialog
+              */
+        .dialog {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            background-color: rgba(0, 0, 0, .6);
+            z-index: 100;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dialog.is-hidden {
+            display: none;
+        }
+
+        .dialog .overlay {
+            background-color: white;
+            border-radius: 10px;
+
+            position: relative;
+
+            width: 80%;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        .dialog .overlay .close-button {
+            position: absolute;
+            top: 15px;
+            right: 10px;
+
+            background: none;
+            border: 0;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .dialog .overlay .title {
+            margin: 0;
+        }
+
+        .dialog .overlay .ok-button {
+            padding: 10px 15px;
+            background: royalblue;
+            border: 0;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .dialog .overlay .ok-button:focus {
+            outline-offset: 5px;
+        }
+
+        /* Credits at bottom **/
+        .credits {
+            margin-left: 40px;
+            padding: 10px;
+            font-size: 14px;
+            color: black;
+            text-decoration: none;
+            opacity: .7;
+        }
+
+        .credits img {
+            height: 30px;
+            margin-left: 5px;
+            margin-top: -2px;
+            vertical-align: middle;
+        }
+
+        .credits:hover,
+        .credits:focus {
+            opacity: 1;
+        }
+
+
     </style>
 @endsection
 
@@ -265,211 +468,85 @@
     <section class="lec_section">
         <div class="lec_over" data-color="#333" data-opacity="0.05"></div>
         <div class="container text-center">
-            <h2 class=" spa_text_color">Trending Products</h2>
+            <h2 class=" spa_text_color">{{ $home->slider_title }}</h2>
             <!-- <h3 class="lec_gold_subtitle">Our product range includes Spa Products, Hotel Supplies and much more.</h3> -->
             <!-- --- slider  open  -->
             <div class="row">
                 <div class="row">
                     <div class="col-md-10">
                         <h3 class="Pro_slid">
-                            Our product range includes Spa Products, Hotel Supplies and much more.
+                            {{ $home->slider_description }}
                         </h3>
                     </div>
                     <div class="col-md-2">
                         <!-- Controls -->
-                        <div class="controls pull-right ">
+                        {{-- <div class="controls pull-right ">
                             <a class="left fa fa-chevron-left btn btn_bg_le" href="#carousel-example"
                                 data-slide="prev"></a><a class="right fa fa-chevron-right btn btn_bg_ri "
                                 href="#carousel-example" data-slide="next"></a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
-                <div id="carousel-example" class="carousel slide xs_none sm_none md_block lg_block xl_block  "
-                    data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <div class="row">
-                                <div class="col-sm-3 col-xs-12">
-                                    <div class="cook">
-                                        <div class="cook_imge lec_content_pro">
-                                            <img src="https://www.spaworlduae.com/storage/products/sandalwoodpowder.jpg"
-                                                alt="" class=" img_cook img-responsive">
-                                        </div>
-                                        <span class="lec_news_title lec_gold_subtitle alin_cook f_h_spa">Sandalwood
-                                            powder </span>
-                                        <p class="product_p">Natural heartwood powder </p>
-                                        <div class="ProdecutBox">
-                                            <div class="row">
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_  lec_go" href="cart.html">
-                                                        <div class="ProBoxBtn"><i class="ti ti-shopping-cart"> </i> Add
-                                                            Cart </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_ " href="prodecutdetails.html">
-                                                        <div class="ProBoxBtn"><i class="fa fa-server"
-                                                                aria-hidden="true"></i> Read More </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                <div class="carousel">
+                    @forelse ($trendingProducts as $item)
+                        <div class="cook tile">
+                            <div class="bg-white spaImgMar ">
+                                <div class="cook_imge spaProSli lec_content_pro">
+                                    <img src="{{ asset('storage/products/' . $item->image1) }}"
+                                        alt="{{ $item->image1_alt }}" class=" img_cook img-responsive">
                                 </div>
-                                <div class="col-sm-3 col-xs-12">
-                                    <div class="cook">
-                                        <div class="cook_imge lec_content_pro">
-                                            <img src="https://www.spaworlduae.com/storage/products/papayaspasalt.jpg" alt=""
-                                                class=" img_cook img-responsive">
+
+                                <span
+                                    class="lec_news_title lec_gold_subtitle alin_cook f_h_spa">{{ $item->product_name }}</span>
+                                {{-- <p class="product_p">Spa salt </p> --}}
+                                <div class="ProdecutBox">
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6">
+                                            <a class="btn_  lec_go " href="javascript:void(0)"
+                                                onclick="addToCart({{ $item->id }},1)">
+                                                <div class="ProBoxBtn"><i class="ti ti-shopping-cart"> </i></div>
+                                            </a>
                                         </div>
-                                        <span class="lec_news_title lec_gold_subtitle alin_cook f_h_spa">Papaya spa
-                                            salt</span>
-                                        <p class="product_p">Spa salt </p>
-                                        <div class="ProdecutBox">
-                                            <div class="row">
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_  lec_go " href="cart.html">
-                                                        <div class="ProBoxBtn"><i class="ti ti-shopping-cart"> </i> Add
-                                                            Cart </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_ " href="prodecutdetails.html">
-                                                        <div class="ProBoxBtn"><i class="fa fa-server"
-                                                                aria-hidden="true"></i> Read More </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-xs-12">
-                                    <div class="cook">
-                                        <div class="cook_imge lec_content_pro">
-                                            <img src="https://www.spaworlduae.com/storage/products/bodywraps.jpg" alt=""
-                                                class=" img_cook img-responsive">
-                                        </div>
-                                        <span class="lec_news_title lec_gold_subtitle alin_cook f_h_spa">Body
-                                            wraps</span>
-                                        <p class="product_p">Skin care </p>
-                                        <div class="ProdecutBox">
-                                            <div class="row">
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_  lec_go " href="cart.html">
-                                                        <div class="ProBoxBtn"><i class="ti ti-shopping-cart"> </i> Add
-                                                            Cart </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_ " href="prodecutdetails.html">
-                                                        <div class="ProBoxBtn"><i class="fa fa-server"
-                                                                aria-hidden="true"></i> Read More </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3 col-xs-12">
-                                    <div class="cook">
-                                        <div class="cook_imge lec_content_pro">
-                                            <img src="https://www.spaworlduae.com/storage/products/moroccanblacksoap.jpg"
-                                                alt="" class=" img_cook img-responsive">
-                                        </div>
-                                        <span class="lec_news_title lec_gold_subtitle alin_cook f_h_spa">Moroccan black
-                                            soap</span>
-                                        <p class="product_p">Skin care </p>
-                                        <div class="ProdecutBox">
-                                            <div class="row">
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_  lec_go " href="cart.html">
-                                                        <div class="ProBoxBtn"><i class="ti ti-shopping-cart"> </i> Add
-                                                            Cart </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_ " href="prodecutdetails.html">
-                                                        <div class="ProBoxBtn"><i class="fa fa-server"
-                                                                aria-hidden="true"></i> Read More </div>
-                                                    </a>
-                                                </div>
-                                            </div>
+                                        <div class="col-xs-6 col-sm-6">
+                                            <a class="HoverBlue"
+                                                href="{{ route('productDetails', $item->url_slug) }}">
+                                                Read More
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @empty
+                        <div class="cook tile">
+                            <div class="bg-white spaImgMar ">
+                                <div class="cook_imge spaProSli lec_content_pro">
+                                    <img src="https://www.spaworlduae.com/storage/products/papayaspasalt.jpg" alt=""
+                                        class=" img_cook img-responsive">
+                                </div>
+
+                                <span class="lec_news_title lec_gold_subtitle alin_cook f_h_spa">Papaya spa
+                                    salt</span>
+                                <p class="product_p">Spa salt </p>
+                                <div class="ProdecutBox">
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6">
+                                            <a class="btn_  lec_go " href="#">
+                                                <div class="ProBoxBtn"><i class="ti ti-shopping-cart"> </i></div>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6">
+                                            <a class="HoverBlue" href="#">
+                                                Read More
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
             </div>
-            <!-- mob slider open  -->
-            <div class="condainer xs_block sm_block md_none lg_none xl_none ">
-                <div class="row">
-                    <div id="carousel-example" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <div class="col-sm-3 col-xs-12">
-                                    <div class="cook">
-                                        <div class="cook_imge lec_content_pro">
-                                            <img src="https://www.spaworlduae.com/storage/products/herbalmassageco-mpress.jpg"
-                                                alt="" class=" img_cook img-responsive">
-                                        </div>
-                                        <span class="lec_news_title lec_gold_subtitle alin_cook f_h_spa">Herbal massage
-                                            compress</span>
-                                        <p class="product_p"> </p>
-                                        <div class="ProdecutBox">
-                                            <div class="row">
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_  lec_go " href="cart.html">
-                                                        <div class="ProBoxBtn"><i class="ti ti-shopping-cart"> </i> Add
-                                                            Cart </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_ " href="prodecutdetails.html">
-                                                        <div class="ProBoxBtn"><i class="fa fa-server"
-                                                                aria-hidden="true"></i> Read More </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="col-sm-3 col-xs-12">
-                                    <div class="cook">
-                                        <div class="cook_imge lec_content_pro">
-                                            <img src="https://www.spaworlduae.com/storage/products/eyepillow.jpg" alt=""
-                                                class=" img_cook img-responsive">
-                                        </div>
-                                        <span class="lec_news_title lec_gold_subtitle alin_cook f_h_spa">Eye
-                                            pillow</span>
-                                        <p class="product_p"> </p>
-                                        <div class="ProdecutBox">
-                                            <div class="row">
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_  lec_go " href="cart.html">
-                                                        <div class="ProBoxBtn"><i class="ti ti-shopping-cart"> </i> Add
-                                                            Cart </div>
-                                                    </a>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-6">
-                                                    <a class="btn_ " href="prodecutdetails.html">
-                                                        <div class="ProBoxBtn"><i class="fa fa-server"
-                                                                aria-hidden="true"></i> Read More </div>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- mob slider end  -->
             <!-- slider end  -->
         </div>
     </section>
@@ -497,5 +574,58 @@
         }
 
         window.addEventListener('resize', slideImage);
+
+        $(document).ready(function() {
+            $('.carousel').slick({
+                slidesToShow: 4,
+                prevArrow: '<button class="previous-button is-control">' +
+                    '  <span class="fas fa-angle-left" aria-hidden="true"></span>' +
+                    '  <span class="sr-only">Previous slide</span>' +
+                    '</button>',
+                nextArrow: '<button class="next-button is-control">' +
+                    '  <span class="fas fa-angle-right" aria-hidden="true"></span>' +
+                    '  <span class="sr-only">Next slide</span>' +
+                    '</button>',
+                responsive: [{
+                        breakpoint: 975,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 675,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 575,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    },
+                    {
+                        breakpoint: 375,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    },
+                ]
+                // responsive: [{
+                //       breakpoint: 575,
+                //       settings: {
+                //          slidesToShow: 2
+                //       }
+                //    },
+                //    {
+                //       breakpoint: 375,
+                //       settings: {
+                //          slidesToShow: 1
+                //       }
+                //    }
+                // ]
+            });
+
+    })
     </script>
 @endsection

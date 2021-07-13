@@ -63,6 +63,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->middleware('auth')->
     Route::get('/changepassword', 'UsersController@changepass')->name('changepassword');
     Route::put('/savepassword', 'UsersController@savepass')->name('savepassword');
     Route::resource('/homepage', 'HomePageController', ['except' => ['show']]);
+    Route::resource('/video', 'VideoLinkController', ['except' => ['show']]);
 });
 // End Routes for website admin navigation
 
